@@ -330,16 +330,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "rs-macro-di"
-version = "0.2.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "695ad894495dedb131fd632d5a188ab3bc7bd31c5c599cae58a8844fc98d4ca5"
-dependencies = [
- "chrono",
- "once_cell",
-]
-
-[[package]]
 name = "rs-web-host"
 version = "0.1.0"
 dependencies = [
@@ -348,7 +338,6 @@ dependencies = [
  "once_cell",
  "proc-macro2",
  "quote",
- "rs-macro-di",
  "serde",
  "syn 1.0.109",
  "tokio",
