@@ -33,10 +33,11 @@ fn generate_route(method: &str, args: TokenStream, input: TokenStream, has_body:
             #block
         }
 
+        // Store the route information
         inventory::submit! {
             crate::Route {
                 method: #method.to_string(),
-                path: format!("{}{}", <Self as Controller>::base_path(), #path),
+                path: #path.to_string(),
                 handler: #name as fn(#params) -> String,
                 has_body: #has_body,
             }
@@ -45,7 +46,6 @@ fn generate_route(method: &str, args: TokenStream, input: TokenStream, has_body:
 
     expanded.into()
 }
-
 
 fn extract_params_from_signature(sig: &Signature) -> TokenStream2 {
     let params = sig.inputs.iter().map(|input| {
