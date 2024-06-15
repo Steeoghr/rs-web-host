@@ -29,7 +29,7 @@ fn generate_route(method: &str, args: TokenStream, input: TokenStream, has_body:
     let handler_name = format_ident!("{}_{}_handler", method.to_lowercase(), name);
 
     let expanded = quote! {
-        #vis fn #name(#params) -> String {
+        #vis fn #handler_name(#params) -> String {
             #block
         }
 
@@ -37,7 +37,7 @@ fn generate_route(method: &str, args: TokenStream, input: TokenStream, has_body:
             crate::Route {
                 method: #method.to_string(),
                 path: #path.to_string(),
-                handler: #name,
+                handler: #handler_name,
                 has_body: #has_body,
             }
         }
