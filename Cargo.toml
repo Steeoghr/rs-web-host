@@ -1,0 +1,24 @@
+[package]
+name = "rs-web-host"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+proc-macro2 = "1.0"
+quote = "1.0"
+syn = { version = "1.0", features = ["full"] }
+inventory = "0.1.10"
+once_cell = "1.9.0"
+chrono = { version = "0.4", features = ["serde"] }
+serde = { version = "1.0", features = ["derive"] }
+rs-macro-di = "0.2.4"
+
+
+[lib]
+proc-macro = true
+
+[features]
+default = []
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full"] }
