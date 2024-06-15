@@ -2,6 +2,10 @@
 name = "rs-web-host"
 version = "0.1.0"
 edition = "2021"
+authors = ["Steeoghr"]
+description = "Rust web host"
+homepage = "https://github.com/Steeoghr/rs-web-host"
+repository = "https://github.com/Steeoghr/rs-web-host"
 
 [dependencies]
 proc-macro2 = "1.0"
