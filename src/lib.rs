@@ -34,13 +34,18 @@ fn generate_route(method: &str, args: TokenStream, input: TokenStream, has_body:
         }
 
         inventory::submit! {
-            crate::Route {
+            #handler_name
+        }
+
+        pub const _: () = {
+            let route = crate::Route {
                 method: #method.to_string(),
                 path: #path.to_string(),
                 handler: #handler_name,
                 has_body: #has_body,
-            }
-        }
+            };
+            crate::register_route(route);
+        };
     };
 
     expanded.into()
