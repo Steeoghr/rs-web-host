@@ -1,8 +1,8 @@
 extern crate proc_macro;
 
 use proc_macro::TokenStream;
-use quote::quote;
-use syn::{parse_macro_input, AttributeArgs, ItemFn, Lit, NestedMeta, Signature};
+use quote::{quote, format_ident};
+use syn::{parse_macro_input, AttributeArgs, ItemFn, Lit, Meta, MetaNameValue, NestedMeta, Signature};
 
 #[proc_macro_attribute]
 pub fn get(args: TokenStream, input: TokenStream) -> TokenStream {
@@ -26,8 +26,7 @@ fn generate_route(method: &str, args: TokenStream, input: TokenStream, has_body:
     let vis = &input.vis;
     let block = &input.block;
     let params = extract_params_from_signature(&input.sig);
-
-    let handler_name = format!("{}_{}_handler", method.to_lowercase(), name);
+    let handler_name = format_ident!("{}_{}_handler", method.to_lowercase(), name);
 
     let expanded = quote! {
         #vis fn #name(#params) -> String {
@@ -36,7 +35,6 @@ fn generate_route(method: &str, args: TokenStream, input: TokenStream, has_body:
 
         // Store the route information
         #[allow(non_upper_case_globals)]
-        #[no_mangle]
         pub static #handler_name: crate::Route = crate::Route {
             method: #method.to_string(),
             path: #path.to_string(),
