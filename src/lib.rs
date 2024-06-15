@@ -2,7 +2,7 @@ extern crate proc_macro;
 
 use proc_macro::TokenStream;
 use quote::{quote, format_ident};
-use syn::{parse_macro_input, AttributeArgs, ItemFn, Lit, Meta, MetaNameValue, NestedMeta, Signature};
+use syn::{parse_macro_input, AttributeArgs, ItemFn, Lit, NestedMeta, Signature};
 
 #[proc_macro_attribute]
 pub fn get(args: TokenStream, input: TokenStream) -> TokenStream {
@@ -33,16 +33,14 @@ fn generate_route(method: &str, args: TokenStream, input: TokenStream, has_body:
             #block
         }
 
-        // Store the route information
-        #[allow(non_upper_case_globals)]
-        pub static #handler_name: crate::Route = crate::Route {
-            method: #method.to_string(),
-            path: #path.to_string(),
-            handler: #name as fn(String) -> String,
-            has_body: #has_body,
-        };
-
-        inventory::submit! { #handler_name }
+        inventory::submit! {
+            crate::Route {
+                method: #method.to_string(),
+                path: #path.to_string(),
+                handler: #name,
+                has_body: #has_body,
+            }
+        }
     };
 
     expanded.into()
