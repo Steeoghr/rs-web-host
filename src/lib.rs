@@ -1,7 +1,6 @@
 extern crate proc_macro;
 
 use proc_macro::TokenStream;
-use proc_macro2::TokenStream as TokenStream2;
 use quote::quote;
 use syn::{parse_macro_input, AttributeArgs, ItemFn, Lit, NestedMeta, Signature};
 
@@ -28,26 +27,30 @@ fn generate_route(method: &str, args: TokenStream, input: TokenStream, has_body:
     let block = &input.block;
     let params = extract_params_from_signature(&input.sig);
 
+    let handler_name = format!("{}_{}_handler", method.to_lowercase(), name);
+
     let expanded = quote! {
         #vis fn #name(#params) -> String {
             #block
         }
 
         // Store the route information
-        inventory::submit! {
-            crate::Route {
-                method: #method.to_string(),
-                path: #path.to_string(),
-                handler: #name as fn(#params) -> String,
-                has_body: #has_body,
-            }
-        }
+        #[allow(non_upper_case_globals)]
+        #[no_mangle]
+        pub static #handler_name: crate::Route = crate::Route {
+            method: #method.to_string(),
+            path: #path.to_string(),
+            handler: #name as fn(String) -> String,
+            has_body: #has_body,
+        };
+
+        inventory::submit! { #handler_name }
     };
 
     expanded.into()
 }
 
-fn extract_params_from_signature(sig: &Signature) -> TokenStream2 {
+fn extract_params_from_signature(sig: &Signature) -> proc_macro2::TokenStream {
     let params = sig.inputs.iter().map(|input| {
         if let syn::FnArg::Typed(pat_type) = input {
             let pat = &pat_type.pat;
