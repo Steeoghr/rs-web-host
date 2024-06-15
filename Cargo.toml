@@ -6,6 +6,7 @@ authors = ["Steeoghr"]
 description = "Rust web host"
 homepage = "https://github.com/Steeoghr/rs-web-host"
 repository = "https://github.com/Steeoghr/rs-web-host"
+license = "MIT"
 
 [dependencies]
 proc-macro2 = "1.0"
