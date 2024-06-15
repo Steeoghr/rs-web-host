@@ -37,7 +37,7 @@ fn generate_route(method: &str, args: TokenStream, input: TokenStream, has_body:
             crate::Route {
                 method: #method.to_string(),
                 path: #path.to_string(),
-                handler: #handler_name,
+                handler: #name,
                 has_body: #has_body,
             }
         }

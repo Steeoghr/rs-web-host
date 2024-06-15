@@ -1,6 +1,6 @@
 [package]
 name = "rs-web-host"
-version = "0.1.7"
+version = "0.1.8"
 edition = "2021"
 authors = ["Steeoghr"]
 description = "Rust web host"
